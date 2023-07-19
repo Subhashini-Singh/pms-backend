@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService{
 //        user.setPassword(requestMap.get("password"));
         user.setPassword(passwordEncoder.encode(requestMap.get("password")));
         user.setStatus("true");
-        user.setRole("user");
+        user.setRole(requestMap.get("role"));
         return user;
 
     }
