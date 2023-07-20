@@ -29,6 +29,7 @@ public class UserDetailsSer implements UserDetailsService {
         else  throw  new UsernameNotFoundException("User not found");
     }
     public User getUserDetail(){
+
         return userDetail.get();
     }
 }

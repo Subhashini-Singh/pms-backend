@@ -57,11 +57,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         }
     }
-    public boolean isAdmin(){
-        return "admin".equalsIgnoreCase((String) claims.get("role"));
+    public boolean isTeamLead(){
+        return "Team Lead".equalsIgnoreCase((String) claims.get("role"));
     }
-    public boolean isUser(){
-        return "user".equalsIgnoreCase((String) claims.get("role"));
+    public boolean isTeamMember(){
+        return "Team Member".equalsIgnoreCase((String) claims.get("role"));
     }
     public String getCurrentUser(){
 //        return username;
