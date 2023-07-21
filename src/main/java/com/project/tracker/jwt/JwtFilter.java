@@ -1,5 +1,6 @@
 package com.project.tracker.jwt;
 
+import com.project.tracker.repo.UserRepo;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,9 +21,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
-    private   JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
     @Autowired
-    private  UserDetailsSer uds;
+    UserDetailsSer userDetailsSer;
 
     private String identity=null;
     Claims claims=null;
@@ -42,7 +43,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 claims = jwtUtil.extractAllClaims(token);
             }
             if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-                UserDetails userDetails= uds.loadUserByUsername(username);//Database username
+                System.out.println(username); //email printed
+                UserDetails userDetails= userDetailsSer.loadUserByUsername(username);//Database username
                 if(jwtUtil.validateToken(token,userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken= new UsernamePasswordAuthenticationToken
                             (userDetails,null,userDetails.getAuthorities());
@@ -57,11 +59,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         }
     }
-    public boolean isAdmin(){
-        return "admin".equalsIgnoreCase((String) claims.get("role"));
+    public boolean isTeamLead(){
+        return "Team_Lead".equalsIgnoreCase((String) claims.get("role"));
     }
-    public boolean isUser(){
-        return "user".equalsIgnoreCase((String) claims.get("role"));
+    public boolean isTeamMember(){
+        return "Team_Member".equalsIgnoreCase((String) claims.get("role"));
     }
     public String getCurrentUser(){
 //        return username;

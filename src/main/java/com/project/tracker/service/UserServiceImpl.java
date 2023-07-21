@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,16 +40,14 @@ public class UserServiceImpl implements UserService{
     @Autowired
     JwtFilter jwtFilter;
 
-    @Autowired
-    UserRepo repo;
 
 
     @Override
     public ResponseEntity<String> signup(Map<String, String> requestMap) {
         try{
             if(this.validateSignupMap(requestMap)){
-                Optional<User> userOptional = userRepo.findByEmail(requestMap.get("email"));
-                if(!userOptional.isPresent()){
+                User userOptional = userRepo.findByEmail(requestMap.get("email"));
+                if(Objects.isNull(userOptional)){
                     userRepo.save(this.getUserFromMap(requestMap));
                     return Utils.getResponseEntity("Successfully Registered", HttpStatus.OK);
                 }else{
@@ -109,6 +108,20 @@ public class UserServiceImpl implements UserService{
             log.error("{}",exception);
         }
         return new ResponseEntity<String>("{\"message\":\""+"Bad credentials"+"\"}",HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllUsers() {
+        try{
+            if(jwtFilter.isTeamLead()){
+                return new ResponseEntity<>(userRepo.findAll(),HttpStatus.OK);
+            }else
+                log.error("{}",userRepo.findByEmail(jwtFilter.getCurrentUser()));
+            return new ResponseEntity<>(userRepo.findByEmail(jwtFilter.getCurrentUser()),HttpStatus.OK);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
