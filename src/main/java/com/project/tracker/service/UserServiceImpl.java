@@ -40,16 +40,14 @@ public class UserServiceImpl implements UserService{
     @Autowired
     JwtFilter jwtFilter;
 
-    @Autowired
-    UserRepo repo;
 
 
     @Override
     public ResponseEntity<String> signup(Map<String, String> requestMap) {
         try{
             if(this.validateSignupMap(requestMap)){
-                Optional<User> userOptional = userRepo.findByEmail(requestMap.get("email"));
-                if(!userOptional.isPresent()){
+                User userOptional = userRepo.findByEmail(requestMap.get("email"));
+                if(Objects.isNull(userOptional)){
                     userRepo.save(this.getUserFromMap(requestMap));
                     return Utils.getResponseEntity("Successfully Registered", HttpStatus.OK);
                 }else{
