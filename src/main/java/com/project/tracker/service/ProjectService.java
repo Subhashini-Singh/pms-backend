@@ -10,4 +10,6 @@ public interface ProjectService {
     ResponseEntity<List<Projects>> getAllProjects();
 
     ResponseEntity<String> addProject(Map<String, String> requestMap);
+
+    void deleteProject(Long id);
 }

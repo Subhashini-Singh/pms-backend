@@ -1,12 +1,15 @@
 package com.project.tracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +22,14 @@ public class Projects {
     private long id;
     private String project_name;
     private String details;
-    private String status;
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
+
+
+
+    private LocalDate start_date;
+
+
+    private LocalDate end_date;
+
+    @ManyToMany
+    private List<User> users;
 }
