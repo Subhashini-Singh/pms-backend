@@ -1,6 +1,6 @@
 package com.project.tracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -49,7 +49,7 @@ public class User implements Serializable {
    // private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(mappedBy = "users")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Projects> project = new ArrayList<>();
 }
 
