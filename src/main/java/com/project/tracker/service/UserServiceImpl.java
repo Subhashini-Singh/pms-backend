@@ -113,11 +113,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResponseEntity<?> getAllUsers() {
         try{
-            if(jwtFilter.isTeamLead()){
                 return new ResponseEntity<>(userRepo.findAll(),HttpStatus.OK);
-            }else
-                log.error("{}",userRepo.findByEmail(jwtFilter.getCurrentUser()));
-            return new ResponseEntity<>(userRepo.findByEmail(jwtFilter.getCurrentUser()),HttpStatus.OK);
         }catch(Exception ex){
             ex.printStackTrace();
         }

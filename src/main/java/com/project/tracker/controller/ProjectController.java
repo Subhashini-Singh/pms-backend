@@ -29,7 +29,7 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody Map<String, String> requestMap){
+    public ResponseEntity<String> addProject(@RequestBody Map<String, Object> requestMap){
         try{
             return projectSer.addProject(requestMap);
         }catch(Exception ex){
