@@ -1,8 +1,10 @@
 package com.project.tracker.service;
 
 import com.project.tracker.entity.Projects;
+import com.project.tracker.entity.User;
 import com.project.tracker.jwt.JwtFilter;
 import com.project.tracker.repo.ProjectRepo;
+import com.project.tracker.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepo projectRepo;
 
     @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
     JwtFilter jwtFilter;
 
     @Override
@@ -34,12 +39,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseEntity<String> addProject(Map<String, String> requestMap) {
+    public ResponseEntity<String> addProject(Map<String, Object> requestMap) {
         try{
             if(jwtFilter.isTeamLead()){
                 if(this.validateProjectMap(requestMap)){
                     projectRepo.save(this.getProjectFromMap(requestMap));
                     return new ResponseEntity<>("New Project was added successfully",HttpStatus.OK);
+
                 }
                 return new ResponseEntity<>("Invalid Data",HttpStatus.BAD_REQUEST);
             }
@@ -57,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-    private boolean validateProjectMap(Map<String,String> requestMap){
+    private boolean validateProjectMap(Map<String,Object> requestMap){
         if(requestMap.containsKey("project_name") && requestMap.containsKey("details") && requestMap.containsKey("start_date")){
             //todo: check for unique project
             return true;
@@ -65,13 +71,27 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
-    private Projects getProjectFromMap(Map<String, String> requestMap) {
-        Projects project=new Projects();
-        project.setProject_name(requestMap.get("project_name"));
-        project.setDetails(requestMap.get("details"));
-        project.setStart_date(LocalDate.parse(requestMap.get("start_date")));
-        project.setEnd_date(LocalDate.parse(requestMap.get("end_date")));
-        return project;
+    private Projects getProjectFromMap(Map<String, Object> requestMap) {
+        Projects project = new Projects();
+        project.setProject_name((String) requestMap.get("project_name"));
+        project.setDetails((String) requestMap.get("details"));
+        project.setStart_date(LocalDate.parse((String) requestMap.get("start_date")));
+        project.setEnd_date(LocalDate.parse((String) requestMap.get("end_date")));
 
+        // Initialize the users list in the project entity
+        project.setUsers(new ArrayList<>());
+
+        List<Map<String, Object>> usersMap = (List<Map<String, Object>>) requestMap.get("users");
+        if (usersMap != null) {
+            for (Map<String, Object> userMap : usersMap) {
+                Long userId = Long.parseLong(userMap.get("id").toString());
+                User fetchedUser = userRepo.findById(userId)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
+
+                project.getUsers().add(fetchedUser);
+            }
+        }
+
+        return project;
     }
 }

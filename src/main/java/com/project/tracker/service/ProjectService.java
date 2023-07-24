@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ProjectService {
     ResponseEntity<List<Projects>> getAllProjects();
 
-    ResponseEntity<String> addProject(Map<String, String> requestMap);
+    ResponseEntity<String> addProject(Map<String, Object> requestMap);
 
     void deleteProject(Long id);
 }
