@@ -1,6 +1,7 @@
 package com.project.tracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,5 +32,6 @@ public class Projects {
     private LocalDate end_date;
 
     @ManyToMany
+    @JsonManagedReference
     private List<User> users;
 }
