@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseEntity<String> addProject(Map<String, String> requestMap) {
         try{
             if(jwtFilter.isTeamLead()){
-                if(this.validateProjectMap(requestMap,false)){
-                    projectRepo.save(this.getProjectFromMap(requestMap,false));
-                    return new ResponseEntity<>("New Product was added successfully",HttpStatus.OK);
+                if(this.validateProjectMap(requestMap)){
+                    projectRepo.save(this.getProjectFromMap(requestMap));
+                    return new ResponseEntity<>("New Project was added successfully",HttpStatus.OK);
                 }
                 return new ResponseEntity<>("Invalid Data",HttpStatus.BAD_REQUEST);
             }
@@ -49,24 +50,27 @@ public class ProjectServiceImpl implements ProjectService {
         return new ResponseEntity<>("Something went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private boolean validateProjectMap(Map<String,String> requestMap,boolean validateId){
-        if(requestMap.containsKey("name")){
-            if(requestMap.containsKey("id")&& validateId){
-                return true;
-            }else return !validateId;
-        }
+    @Override
+    public void deleteProject(Long id) {
+        projectRepo.deleteById(id);
+
+    }
+
+
+    private boolean validateProjectMap(Map<String,String> requestMap){
+        if(requestMap.containsKey("project_name") && requestMap.containsKey("details") && requestMap.containsKey("start_date")){
+            //todo: check for unique project
+            return true;
+        };
         return false;
     }
 
-    private Projects getProjectFromMap(Map<String, String> requestMap, boolean isAdd) {
+    private Projects getProjectFromMap(Map<String, String> requestMap) {
         Projects project=new Projects();
-        if(isAdd){
-            project.setId(Integer.parseInt(requestMap.get("id")));
-        }else project.setStatus("true");
-        project.setProject_name(requestMap.get("name"));
-        project.setDetails(requestMap.get("description"));
-        project.setStart_date(LocalDateTime.parse(requestMap.get("date")));
-        project.setEnd_date(LocalDateTime.parse(requestMap.get("date")));
+        project.setProject_name(requestMap.get("project_name"));
+        project.setDetails(requestMap.get("details"));
+        project.setStart_date(LocalDate.parse(requestMap.get("start_date")));
+        project.setEnd_date(LocalDate.parse(requestMap.get("end_date")));
         return project;
 
     }

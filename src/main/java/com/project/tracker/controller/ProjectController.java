@@ -19,7 +19,7 @@ public class ProjectController {
     private ProjectService projectSer;
 
     @GetMapping("/getAllProjects")
-    private ResponseEntity<List<Projects>> getAllProduct() {
+    private ResponseEntity<List<Projects>> getAllProjects() {
         try{
             return projectSer.getAllProjects();
         }catch(Exception ex){
@@ -36,5 +36,14 @@ public class ProjectController {
             ex.printStackTrace();
         }
         return new ResponseEntity<>("There is internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable Long id){
+
+        projectSer.deleteProject(id);
+        return new ResponseEntity<>("Project is deleted", HttpStatus.OK);
+
+
     }
 }

@@ -14,6 +14,7 @@ import javax.management.relation.Role;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -47,9 +48,9 @@ public class User implements Serializable {
         //    inverseJoinColumns = @JoinColumn(name = "role_id"))
    // private Set<Role> roles = new HashSet<>();
 
-    //@ManyToMany(mappedBy = "users")
-    //@JsonManagedReference
-    //private List<Program> program = new ArrayList<>();
+    @ManyToMany(mappedBy = "users")
+    @JsonManagedReference
+    private List<Projects> project = new ArrayList<>();
 }
 
 
