@@ -44,7 +44,8 @@ public class ProjectServiceImpl implements ProjectService {
             if(jwtFilter.isTeamLead()){
                 if(this.validateProjectMap(requestMap)){
                     projectRepo.save(this.getProjectFromMap(requestMap));
-                    return new ResponseEntity<>("New Project was added successfully",HttpStatus.OK);
+                    String resp = "{\"msg\":\"New Project was added successfully\"}";
+                    return new ResponseEntity<>(resp,HttpStatus.OK);
 
                 }
                 return new ResponseEntity<>("Invalid Data",HttpStatus.BAD_REQUEST);
