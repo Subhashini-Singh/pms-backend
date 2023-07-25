@@ -120,5 +120,10 @@ public class UserServiceImpl implements UserService{
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public User getUserById(Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
 
 }

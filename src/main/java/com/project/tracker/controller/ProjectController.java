@@ -46,4 +46,45 @@ public class ProjectController {
 
 
     }
-}
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Projects> getProjectById(@PathVariable Long projectId) {
+        Projects project = projectSer.getProjectById(projectId);
+        if (project == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
+
+
+   // @PostMapping
+    //public ResponseEntity<Projects> saveProject(@RequestBody Projects project) {
+      //  Projects savedProject = projectSer.saveProject(project);
+        //return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
+    //}
+
+    //@PutMapping("/{id}")
+    //public ResponseEntity<Projects> updateProject(@PathVariable Long id,@RequestBody Projects projects){
+      //  Projects pro = projectSer.getProjectById(id);
+
+        //pro.setStatus("Completed"); // Update the project status
+        //Projects updatedProject = projectSer.updateProject(pro);
+        //return ResponseEntity.ok(updatedProject);
+
+    @PutMapping("/{projectId}")
+    public ResponseEntity<Projects> completeProject(@PathVariable Long projectId) {
+        Projects project = projectSer.getProjectById(projectId);
+        if (project == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Set the 'completed' attribute to true when the team submits the documentation
+        //project.setStatus(true);
+        Projects updatedProject = projectSer.saveProject(project);
+        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+    }
+
+
+    }
+
+
+

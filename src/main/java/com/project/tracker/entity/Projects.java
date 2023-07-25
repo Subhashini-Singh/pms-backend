@@ -24,7 +24,7 @@ public class Projects {
     private String project_name;
     private String details;
 
-
+    //private boolean status;
 
     private LocalDate start_date;
 

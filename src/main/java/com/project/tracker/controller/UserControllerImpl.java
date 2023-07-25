@@ -48,4 +48,11 @@ public class UserControllerImpl implements UserController{
         }
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<User> getUSerById(Long id) {
+        User user=userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 }
