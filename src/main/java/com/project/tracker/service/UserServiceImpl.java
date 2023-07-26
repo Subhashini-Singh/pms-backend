@@ -121,10 +121,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User getUserById(Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public User save(User user1) {
+        return userRepo.save(user1);
+    }
+    @Override
     public User getCurrentLoggedInUser() {
         String userEmail = userDetailsSer.getUserDetail().getEmail();
         User user = userRepo.findByEmail(userEmail);
         return user;
     }
+
 
 }

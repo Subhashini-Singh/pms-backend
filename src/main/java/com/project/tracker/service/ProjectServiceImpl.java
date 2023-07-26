@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +59,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProject(Long id) {
         projectRepo.deleteById(id);
-
     }
 
 
@@ -78,6 +76,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setDetails((String) requestMap.get("details"));
         project.setStart_date(LocalDate.parse((String) requestMap.get("start_date")));
         project.setEnd_date(LocalDate.parse((String) requestMap.get("end_date")));
+       // project.setStatus(false);
 
         // Initialize the users list in the project entity
         project.setUsers(new ArrayList<>());
@@ -94,5 +93,21 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         return project;
+    }
+
+    @Override
+    public Projects getProjectById(Long projectId) {
+        return projectRepo.findById(projectId).orElse(null);
+    }
+
+    @Override
+    public Projects saveProject(Projects project) {
+        return projectRepo.save(project);
+    }
+
+    @Override
+    public Projects updateProject(Projects project) {
+        return projectRepo.save(project);
+
     }
 }

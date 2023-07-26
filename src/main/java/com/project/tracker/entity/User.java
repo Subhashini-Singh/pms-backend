@@ -1,6 +1,8 @@
 package com.project.tracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.management.relation.Role;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -41,6 +44,12 @@ public class User implements Serializable {
     @NotBlank
     private String role;
     private String status;
+    private String gender;
+    private ArrayList<String> technology = new ArrayList<>();
+    private LocalDate dob;
+    private String contact;
+    private String address;
+    private String photoUrl;
 
     //@ManyToMany(fetch = FetchType.LAZY)
     //@JoinTable(name = "user_roles",
@@ -49,7 +58,7 @@ public class User implements Serializable {
    // private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(mappedBy = "users")
-    @JsonBackReference
+    @JsonIgnore
     private List<Projects> project = new ArrayList<>();
 }
 

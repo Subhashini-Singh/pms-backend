@@ -12,4 +12,10 @@ public interface ProjectService {
     ResponseEntity<String> addProject(Map<String, Object> requestMap);
 
     void deleteProject(Long id);
+
+    public Projects getProjectById(Long projectId);
+
+    public Projects saveProject(Projects project);
+
+    public Projects updateProject(Projects project);
 }
