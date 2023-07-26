@@ -13,4 +13,6 @@ public interface UserService {
     ResponseEntity<String> login(Map<String, String> requestMap);
 
     ResponseEntity<?> getAllUsers();
+
+    User getCurrentLoggedInUser();
 }
