@@ -120,5 +120,11 @@ public class UserServiceImpl implements UserService{
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public User getCurrentLoggedInUser() {
+        String userEmail = userDetailsSer.getUserDetail().getEmail();
+        User user = userRepo.findByEmail(userEmail);
+        return user;
+    }
 
 }

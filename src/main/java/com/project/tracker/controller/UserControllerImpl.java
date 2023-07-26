@@ -48,4 +48,19 @@ public class UserControllerImpl implements UserController{
         }
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @Override
+    public ResponseEntity<User> getCurrentUser() {
+        try {
+            User currentUser = userService.getCurrentLoggedInUser();
+            if (currentUser != null) {
+                return new ResponseEntity<>(currentUser, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
