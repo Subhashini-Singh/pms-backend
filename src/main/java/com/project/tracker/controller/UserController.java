@@ -1,8 +1,11 @@
 package com.project.tracker.controller;
 
+import com.project.tracker.NotificationMessage;
 import com.project.tracker.entity.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,15 +28,16 @@ public interface UserController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<User> getUSerById(@PathVariable Long id);
 
-    @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user);
+    @PutMapping(value = "/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> update(@RequestBody User user);
 
     @GetMapping("/user")
     public ResponseEntity<User> getCurrentUser();
 
-    @PostMapping("/photo")
+    @PostMapping("/edit/photo")
     public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId);
 
-
+    @MessageMapping("/new-project-notification")
+    @SendTo("/topic/notifications")
+    public NotificationMessage sendNewProjectNotification();
 }

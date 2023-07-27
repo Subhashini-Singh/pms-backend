@@ -32,6 +32,8 @@ public class Projects {
 
     private LocalDate end_date;
 
+    private String submission_material;
+
     @ManyToMany
 
     private List<User> users;

@@ -48,8 +48,10 @@ public class User {
     private ArrayList<String> technology = new ArrayList<>();
     private LocalDate dob;
     private String contact;
-    private String address;
-    private String photoUrl;
+    private String permanentAddress;
+    private String presentAddress;
+    private String bloodGroup;
+    private String photo;
 
     //@ManyToMany(fetch = FetchType.LAZY)
     //@JoinTable(name = "user_roles",
