@@ -25,14 +25,13 @@ public interface UserController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<User> getUSerById(@PathVariable Long id);
 
-    @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user);
+    @PutMapping(value = "/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> update(@RequestBody User user);
 
     @GetMapping("/user")
     public ResponseEntity<User> getCurrentUser();
 
-    @PostMapping("/photo")
+    @PostMapping("/edit/photo")
     public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId);
 
 

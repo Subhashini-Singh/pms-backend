@@ -69,15 +69,18 @@ public class UserControllerImpl implements UserController{
     }
 
     @Override
-    public ResponseEntity<User> update(Long id, User user) {
-        User user1 = userService.getUserById(id);
+    public ResponseEntity<User> update(User user) {
+        User user1 = userService.getUserById(getCurrentUser().getBody().getId());
         if (user1== null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // Update the user fields based on the provided data
         user1.setContact(user.getContact());
-        user1.setAddress(user.getAddress());
+        user1.setPermanentAddress(user.getPermanentAddress());
+        user1.setPresentAddress(user.getPresentAddress());
+
+        user1.setBloodGroup(user.getBloodGroup());
         user1.setDob(user.getDob());
         user1.setGender(user.getGender());
         user1.setTechnology(user.getTechnology());
@@ -116,7 +119,7 @@ public class UserControllerImpl implements UserController{
             Optional<User> optionalUser = Optional.ofNullable(userService.getUserById(userId));
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                user.setPhotoUrl(filename); // Save only the filename, adjust as needed
+                user.setPhoto(filename); // Save only the filename, adjust as needed
                 userService.save(user);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with ID: " + userId);
