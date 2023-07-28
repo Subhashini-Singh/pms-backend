@@ -45,12 +45,12 @@ public class User {
     private String role;
     private String status;
     private String gender;
-    private ArrayList<String> technology = new ArrayList<>();
+    private String technology;
     private LocalDate dob;
     private String contact;
     private String permanentAddress;
     private String presentAddress;
-    private String bloodGroup;
+
 
 
 
