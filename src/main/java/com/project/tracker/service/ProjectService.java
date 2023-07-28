@@ -15,7 +15,9 @@ public interface ProjectService {
 
     public Projects getProjectById(Long projectId);
 
+
     public Projects saveProject(Projects project);
 
-    public Projects updateProject(Projects project);
+
 }
+

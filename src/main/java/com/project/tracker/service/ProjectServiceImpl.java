@@ -105,9 +105,5 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepo.save(project);
     }
 
-    @Override
-    public Projects updateProject(Projects project) {
-        return projectRepo.save(project);
 
-    }
 }

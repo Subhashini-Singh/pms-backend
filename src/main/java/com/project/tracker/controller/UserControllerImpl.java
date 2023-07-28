@@ -107,31 +107,7 @@ public class UserControllerImpl implements UserController{
         }
     }
 
-    @Override
-    public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
-        try {
-            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir, filename);
 
-            // Save the file to the upload directory
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // Save the file path to the user's profile in the database
-            Optional<User> optionalUser = Optional.ofNullable(userService.getUserById(userId));
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                user.setPhoto(filename); // Save only the filename, adjust as needed
-                userService.save(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with ID: " + userId);
-            }
-
-            return ResponseEntity.ok("Photo uploaded and profile updated successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload photo.");
-        }
-    }
 
     public NotificationMessage sendNewProjectNotification() {
         return new NotificationMessage("A new project has been added!");
