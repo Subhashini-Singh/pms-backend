@@ -34,8 +34,6 @@ public interface UserController {
     @GetMapping("/user")
     public ResponseEntity<User> getCurrentUser();
 
-    @PostMapping("/edit/photo")
-    public ResponseEntity<String> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId);
 
     @MessageMapping("/new-project-notification")
     @SendTo("/topic/notifications")

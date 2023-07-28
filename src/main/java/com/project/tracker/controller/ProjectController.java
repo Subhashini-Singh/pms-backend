@@ -70,18 +70,18 @@ public class ProjectController {
         //Projects updatedProject = projectSer.updateProject(pro);
         //return ResponseEntity.ok(updatedProject);
 
-    @PutMapping("/{projectId}")
-    public ResponseEntity<Projects> completeProject(@PathVariable Long projectId) {
-        Projects project = projectSer.getProjectById(projectId);
-        if (project == null) {
+    @PutMapping("submit")
+    public ResponseEntity<Projects> update(@RequestBody Projects project){
+        Projects projects = projectSer.getProjectById(project.getId());
+        if(projects==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        projects.getSubmission_material();
+        Projects updateSubmission = projectSer.saveProject(projects);
+        return new ResponseEntity<>(updateSubmission,HttpStatus.OK);
 
-        // Set the 'completed' attribute to true when the team submits the documentation
-        //project.setStatus(true);
-        Projects updatedProject = projectSer.saveProject(project);
-        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
+
 
 
     }
