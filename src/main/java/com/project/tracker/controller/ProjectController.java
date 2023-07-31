@@ -42,7 +42,7 @@ public class ProjectController {
     public ResponseEntity<String> deleteProject(@PathVariable Long id){
 
         projectSer.deleteProject(id);
-        return new ResponseEntity<>("Project is deleted", HttpStatus.OK);
+        return new ResponseEntity<>("{\"msg\":\"Project is deleted\"}", HttpStatus.OK);
 
 
     }
