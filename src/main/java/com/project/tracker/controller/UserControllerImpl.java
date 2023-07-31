@@ -81,7 +81,6 @@ public class UserControllerImpl implements UserController{
         user1.setPermanentAddress(user.getPermanentAddress());
         user1.setPresentAddress(user.getPresentAddress());
 
-        user1.setBloodGroup(user.getBloodGroup());
         user1.setDob(user.getDob());
         user1.setGender(user.getGender());
         user1.setTechnology(user.getTechnology());
